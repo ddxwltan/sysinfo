@@ -16,7 +16,7 @@ sender = 'XXX@163.com'
 # 收件人为多个收件人
 receiver = ['XXX@126.com', 'XXX@126.com']
 
-subject = 'Python email test'
+subject = 'XXX server is Failed'
 # 通过Header对象编码的文本，包含utf-8编码信息和Base64编码信息。以下中文名测试ok
 # subject = '中文标题'
 # subject=Header(subject, 'utf-8').encode()
