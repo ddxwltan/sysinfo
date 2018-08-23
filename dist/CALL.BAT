@@ -1,3 +1,0 @@
-sysinfo.exe
-
-PAUSE
