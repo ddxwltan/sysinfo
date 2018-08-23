@@ -31,8 +31,8 @@ else:
     print("程序即将运行，请等待……")
     time.sleep(2)
 
-conn1 = pymssql.connect(host='10.1.0.5', user='serverinf', password='mtbookserver911..', database='test')
-# conn1 = pymssql.connect(host='127.0.0.1', user='sa', password='abcd12345678', database='royalty')
+# conn1 = pymssql.connect(host='10.1.0.5', user='serverinf', password='mtbookserver911..', database='test')
+conn1 = pymssql.connect(host='127.0.0.1', user='sa', password='abcd12345678', database='royalty')
 cur1 = conn1.cursor(as_dict=True)
 
 def get_xls_data(xlsxname, sheetindex):
@@ -49,14 +49,14 @@ def get_xls_data(xlsxname, sheetindex):
         result.append(temp)
     return result
 
-def warlingmail(psd,subject,text):
+def warlingmail(psd,mailloop,subject,text):
     # 设置smtplib所需的参数
     # 下面的发件人，收件人是用于邮件传输的。
     smtpserver = 'smtp.exmail.qq.com'
     username = 'itserver2@xiron.net.cn'
     password = psd
     sender = 'itserver2@xiron.net.cn'
-    receiver = ['chengxi@xiron.net.cn']
+    receiver = mailloop
 
     msg = MIMEMultipart('mixed')
     msg['Subject'] = subject
@@ -115,6 +115,12 @@ if __name__ == "__main__":
     while True:
         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         print(now + ": checking is starting……")
+        # 获取邮件地址
+        rece = get_xls_data('servinfo.xlsx', 1)
+        mailloop = []
+        for mail in rece:
+            mailloop.append(mail['warmail'])
+        # 获取服务器列表
         gate = get_xls_data('servinfo.xlsx', 0)
         for ip in gate:
             if ip['on/off'] == 0:
@@ -142,7 +148,7 @@ if __name__ == "__main__":
                         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                         print(now + ': Server ' + ip['serverip'] + " 硬盘使用量超过阈值，请立即查看!!!")
                         # 发邮件
-                        print(now + ': ' + warlingmail(pasd,subject, text))
+                        print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
 
                     # 检测CPU占用率
                     if servinfo[0]['cpurate'] >= ip['cpurate']*100:
@@ -152,7 +158,7 @@ if __name__ == "__main__":
                         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                         print(now + ': Server ' + ip['serverip'] + " CPU使用量超过阈值，请立即查看!!!")
                         # 发邮件
-                        print(now + ': ' + warlingmail(pasd,subject, text))
+                        print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
 
                     #检测内存占用率
                     if servinfo[0]['memrate'] >= ip['memrate']*100:
@@ -162,7 +168,7 @@ if __name__ == "__main__":
                         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                         print(now + ': Server ' + ip['serverip'] + " 内存使用量超过阈值，请立即查看!!!")
                         # 发邮件
-                        print(now + ': ' + warlingmail(pasd,subject, text))
+                        print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
 
                 # 检测离线时间
                 if servinfo == []:
@@ -177,10 +183,10 @@ if __name__ == "__main__":
                     ft['hours'], ft['mins'] = divmod(ft['mins'], 60)
                     ft['days'], ft['hours'] = divmod(ft['hours'], 24)
                     breakinfo = "已经掉线%d天%d小时%d分%d秒" % (ft['days'], ft['hours'], ft['mins'], ft['secs'])
-                    text = "系统管理员：\n    请注意：Server %s %s 请立即查看，最后一次在线时间为：%s%%"%(ip['serverip'],breakinfo,onlinetime)
+                    text = "系统管理员：\n    请注意：Server %s %s 请立即查看，最后一次在线时间为：%s"%(ip['serverip'],breakinfo,onlinetime)
                     subject = ip['serverip'] + ' is Failed! Please check!!'
                     now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                     print(now + ': Server ' + ip['serverip'] + " is missing!!!")
                     #发邮件
-                    print(now + ': ' + warlingmail(pasd,subject, text))
+                    print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
         time.sleep(600)
