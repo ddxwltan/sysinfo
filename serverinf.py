@@ -125,43 +125,44 @@ if __name__ == "__main__":
                 querysql = "select * from server where ip = '%s' order by date desc" % (ip['serverip'])
                 cur1.execute(querysql)
                 servinfo = cur1.fetchall()
-                # 检测硬盘占用率
-                hr = ip['hddrate']*100
-                if  servinfo[0]['diskrate1'] >= hr or servinfo[0]['diskrate2'] >= hr or servinfo[0]['diskrate3'] >= hr or\
-                    servinfo[0]['diskrate4'] >= hr or servinfo[0]['diskrate5'] >= hr:
-                    hddrate = []
-                    hddrate.append(str(servinfo[0]['diskrate1']) + '%')
-                    hddrate.append(str(servinfo[0]['diskrate2']) + '%')
-                    hddrate.append(str(servinfo[0]['diskrate3']) + '%')
-                    hddrate.append(str(servinfo[0]['diskrate4']) + '%')
-                    hddrate.append(str(servinfo[0]['diskrate5']) + '%')
-                    breakinfo = "硬盘空间超出了阈值限制"
-                    text = "系统管理员：\n    请注意：Server  %s %s 请立即查看，硬盘使用量为：%s" %(ip['serverip'],breakinfo,str(hddrate))
-                    subject = ip['serverip'] + ' HDD used rate is too high! Please check!!'
-                    now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-                    print(now + ': Server ' + ip['serverip'] + " 硬盘使用量超过阈值，请立即查看!!!")
-                    # 发邮件
-                    print(now + ': ' + warlingmail(pasd,subject, text))
+                if servinfo != []:
+                    # 检测硬盘占用率
+                    hr = ip['hddrate']*100
+                    if  servinfo[0]['diskrate1'] >= hr or servinfo[0]['diskrate2'] >= hr or servinfo[0]['diskrate3'] >= hr or\
+                        servinfo[0]['diskrate4'] >= hr or servinfo[0]['diskrate5'] >= hr:
+                        hddrate = []
+                        hddrate.append(str(servinfo[0]['diskrate1']) + '%')
+                        hddrate.append(str(servinfo[0]['diskrate2']) + '%')
+                        hddrate.append(str(servinfo[0]['diskrate3']) + '%')
+                        hddrate.append(str(servinfo[0]['diskrate4']) + '%')
+                        hddrate.append(str(servinfo[0]['diskrate5']) + '%')
+                        breakinfo = "硬盘空间超出了阈值限制"
+                        text = "系统管理员：\n    请注意：Server  %s %s 请立即查看，硬盘使用量为：%s" %(ip['serverip'],breakinfo,str(hddrate))
+                        subject = ip['serverip'] + ' HDD used rate is too high! Please check!!'
+                        now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+                        print(now + ': Server ' + ip['serverip'] + " 硬盘使用量超过阈值，请立即查看!!!")
+                        # 发邮件
+                        print(now + ': ' + warlingmail(pasd,subject, text))
 
-                # 检测CPU占用率
-                if servinfo[0]['cpurate'] >= ip['cpurate']*100:
-                    breakinfo = "CPU使用量超出了阈值限制"
-                    text = "系统管理员：\n    请注意：Server %s %s 请立即查看，CPU使用量为：%s%%" %(ip['serverip'],breakinfo,servinfo[0]['cpurate'])
-                    subject = ip['serverip'] + ' CPU used rate is too high! Please check!!'
-                    now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-                    print(now + ': Server ' + ip['serverip'] + " CPU使用量超过阈值，请立即查看!!!")
-                    # 发邮件
-                    print(now + ': ' + warlingmail(pasd,subject, text))
+                    # 检测CPU占用率
+                    if servinfo[0]['cpurate'] >= ip['cpurate']*100:
+                        breakinfo = "CPU使用量超出了阈值限制"
+                        text = "系统管理员：\n    请注意：Server %s %s 请立即查看，CPU使用量为：%s%%" %(ip['serverip'],breakinfo,servinfo[0]['cpurate'])
+                        subject = ip['serverip'] + ' CPU used rate is too high! Please check!!'
+                        now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+                        print(now + ': Server ' + ip['serverip'] + " CPU使用量超过阈值，请立即查看!!!")
+                        # 发邮件
+                        print(now + ': ' + warlingmail(pasd,subject, text))
 
-                #检测内存占用率
-                if servinfo[0]['memrate'] >= ip['memrate']*100:
-                    breakinfo = "内存使用量超出了阈值限制"
-                    text = "系统管理员：\n    请注意：Server %s %s 请立即查看，内存使用量为：%s%%"%(ip['serverip'],breakinfo,servinfo[0]['memrate'])
-                    subject = ip['serverip'] + ' Memery used rate is too high! Please check!!'
-                    now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-                    print(now + ': Server ' + ip['serverip'] + " 内存使用量超过阈值，请立即查看!!!")
-                    # 发邮件
-                    print(now + ': ' + warlingmail(pasd,subject, text))
+                    #检测内存占用率
+                    if servinfo[0]['memrate'] >= ip['memrate']*100:
+                        breakinfo = "内存使用量超出了阈值限制"
+                        text = "系统管理员：\n    请注意：Server %s %s 请立即查看，内存使用量为：%s%%"%(ip['serverip'],breakinfo,servinfo[0]['memrate'])
+                        subject = ip['serverip'] + ' Memery used rate is too high! Please check!!'
+                        now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+                        print(now + ': Server ' + ip['serverip'] + " 内存使用量超过阈值，请立即查看!!!")
+                        # 发邮件
+                        print(now + ': ' + warlingmail(pasd,subject, text))
 
                 # 检测离线时间
                 if servinfo == []:
