@@ -1,0 +1,22 @@
+missing module named resource - imported by posix, C:\test\Python\sysinfo\warmail.py
+missing module named posix - imported by os, C:\test\Python\sysinfo\warmail.py
+missing module named _posixsubprocess - imported by subprocess, C:\test\Python\sysinfo\warmail.py
+missing module named org - imported by pickle, C:\test\Python\sysinfo\warmail.py
+missing module named readline - imported by cmd, code, pdb, C:\test\Python\sysinfo\warmail.py
+excluded module named _frozen_importlib - imported by importlib, importlib.abc, C:\test\Python\sysinfo\warmail.py
+missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, C:\test\Python\sysinfo\warmail.py
+missing module named _winreg - imported by platform, C:\test\Python\sysinfo\warmail.py
+missing module named _scproxy - imported by urllib.request
+missing module named java - imported by platform, C:\test\Python\sysinfo\warmail.py
+missing module named 'java.lang' - imported by platform, C:\test\Python\sysinfo\warmail.py, xml.sax._exceptions
+missing module named vms_lib - imported by platform, C:\test\Python\sysinfo\warmail.py
+missing module named termios - imported by tty, getpass, C:\test\Python\sysinfo\warmail.py
+missing module named grp - imported by shutil, tarfile, C:\test\Python\sysinfo\warmail.py
+missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, getpass, C:\test\Python\sysinfo\warmail.py, netrc
+missing module named 'org.python' - imported by copy, C:\test\Python\sysinfo\warmail.py, xml.sax
+missing module named _dummy_threading - imported by dummy_threading, C:\test\Python\sysinfo\warmail.py
+missing module named elementtree - imported by xlrd.xlsx
+missing module named lxml - imported by xlrd.xlsx
+missing module named cElementTree - imported by xlrd.xlsx
+missing module named cStringIO - imported by xlrd.timemachine
+missing module named copy_reg - imported by cStringIO
