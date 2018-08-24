@@ -31,8 +31,8 @@ else:
     print("程序即将运行，请等待……")
     time.sleep(2)
 
-# conn1 = pymssql.connect(host='10.1.0.5', user='serverinf', password='mtbookserver911..', database='test')
-conn1 = pymssql.connect(host='127.0.0.1', user='sa', password='abcd12345678', database='royalty')
+conn1 = pymssql.connect(host='10.1.0.5', user='serverinf', password='mtbookserver911..', database='test')
+# conn1 = pymssql.connect(host='127.0.0.1', user='sa', password='abcd12345678', database='royalty')
 cur1 = conn1.cursor(as_dict=True)
 
 def get_xls_data(xlsxname, sheetindex):
@@ -49,7 +49,7 @@ def get_xls_data(xlsxname, sheetindex):
         result.append(temp)
     return result
 
-def warlingmail(psd,mailloop,subject,text):
+def warningmail(psd,mailloop,subject,text):
     # 设置smtplib所需的参数
     # 下面的发件人，收件人是用于邮件传输的。
     smtpserver = 'smtp.exmail.qq.com'
@@ -148,7 +148,7 @@ if __name__ == "__main__":
                         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                         print(now + ': Server ' + ip['serverip'] + " 硬盘使用量超过阈值，请立即查看!!!")
                         # 发邮件
-                        print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
+                        print(now + ': ' + warningmail(pasd,mailloop,subject, text))
 
                     # 检测CPU占用率
                     if servinfo[0]['cpurate'] >= ip['cpurate']*100:
@@ -158,17 +158,17 @@ if __name__ == "__main__":
                         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                         print(now + ': Server ' + ip['serverip'] + " CPU使用量超过阈值，请立即查看!!!")
                         # 发邮件
-                        print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
+                        print(now + ': ' + warningmail(pasd,mailloop,subject, text))
 
                     #检测内存占用率
                     if servinfo[0]['memrate'] >= ip['memrate']*100:
                         breakinfo = "内存使用量超出了阈值限制"
                         text = "系统管理员：\n    请注意：Server %s %s 请立即查看，内存使用量为：%s%%"%(ip['serverip'],breakinfo,servinfo[0]['memrate'])
-                        subject = ip['serverip'] + ' Memery used rate is too high! Please check!!'
+                        subject = ip['serverip'] + ' Memory used rate is too high! Please check!!'
                         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                         print(now + ': Server ' + ip['serverip'] + " 内存使用量超过阈值，请立即查看!!!")
                         # 发邮件
-                        print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
+                        print(now + ': ' + warningmail(pasd,mailloop,subject, text))
 
                 # 检测离线时间
                 if servinfo == []:
@@ -188,5 +188,5 @@ if __name__ == "__main__":
                     now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
                     print(now + ': Server ' + ip['serverip'] + " is missing!!!")
                     #发邮件
-                    print(now + ': ' + warlingmail(pasd,mailloop,subject, text))
+                    print(now + ': ' + warningmail(pasd,mailloop,subject, text))
         time.sleep(600)
